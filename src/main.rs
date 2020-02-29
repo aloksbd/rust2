@@ -1,3 +1,4 @@
+mod position;
+
 fn main() {
-    println!("Hello World!");
 }
