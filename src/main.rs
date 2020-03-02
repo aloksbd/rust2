@@ -12,6 +12,8 @@ fn main() {
     o.set_x(3);
     o.rename_to("no");
     println!("{} {} {}",o.x(),o.y(),o.name());
+    
+    println!("--------");
 
     let c1 = object::Object::new("c1");
     let c2 = object::Object::new("c2");
@@ -22,13 +24,23 @@ fn main() {
     println!("{}",o.add_child(c3.clone()));
     println!("{}",o.add_child(c4.clone()));
     o.print_children();
+    println!("--------");
 
-    println!("{}",o.remove_child(c1));
+    println!("{}",o.remove_child(c1.clone()));
     o.print_children();
-    println!("{}",o.remove_child(c2));
+    println!("{}",o.remove_child(c2.clone()));
     o.print_children();
-    println!("{}",o.remove_child(c4));
+    println!("{}",o.remove_child(c3.clone()));
     o.print_children();
-    println!("{}",o.remove_child(c3));
+    println!("{}",o.remove_child(c4.clone()));
     o.print_children();
+
+    println!("--------");
+    o.add_parent(c1.clone());
+    o.print_parent();
+    o.add_parent(c2.clone());
+    o.print_parent();
+    o.remove_parent();
+    println!("--------");
+    o.print_parent();
 }

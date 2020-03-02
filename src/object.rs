@@ -5,6 +5,7 @@ pub struct Object{
     name: String,
     position: Position,
     children: Vec<Object>,
+    parent: Option<Box<Object>>,
 }
 
 impl Object{
@@ -13,6 +14,7 @@ impl Object{
             name: _name.to_string(),
             position: Position::new_with_x_y(_x, _y),
             children: Vec::new(),
+            parent: None,
         }
     }
     pub fn new(_name: &str) -> Object{
@@ -20,6 +22,7 @@ impl Object{
             name: _name.to_string(),
             position: Position::new(),
             children: Vec::new(),
+            parent: None,
         }
     }
     pub fn name(&self) -> String {
@@ -68,6 +71,7 @@ impl Object{
                     self.children[i] = self.children[len-1].clone();
                 }
                 self.children.pop();
+                
                 removed = true;
                 break;
             }
@@ -78,6 +82,20 @@ impl Object{
     pub fn print_children(&self){
         for child in self.children.iter(){
             println!("{}",child.name());
+        }
+    }
+
+    pub fn add_parent(&mut self,_parent: Object) {
+        self.parent = Some(Box::new(_parent));
+    }
+
+    pub fn remove_parent(&mut self) {
+        self.parent = None;
+    }
+
+    pub fn print_parent(&self){
+        if let Some(parent) = &self.parent{
+            println!("{}",parent.name());
         }
     }
 }
