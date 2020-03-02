@@ -1,5 +1,5 @@
 [package]
-name = "HierarchicalObjects"
+name = "hierarchical_objects"
 version = "0.1.0"
 authors = ["aloksbd <30898579+aloksbd@users.noreply.github.com>"]
 edition = "2018"
