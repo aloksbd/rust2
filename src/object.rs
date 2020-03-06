@@ -48,7 +48,7 @@ impl Object{
     }
 
     // add a child if child with same name doesnot exist, return true if added
-    pub fn add_child(&mut self,_child: Object) -> bool{
+    pub fn add_child(&mut self,_child: &mut Object) -> bool{
         let mut exists = false;
         for child in self.children.iter(){
             if child.name() == _child.name(){
@@ -56,13 +56,14 @@ impl Object{
             }
         }
         if !exists{
-            self.children.push(_child);
+            self.children.push(_child.clone());
+            _child.add_parent(&self);
         }
         !exists
     }
 
     // remove a child with matching name if exist, return true if removed
-    pub fn remove_child(&mut self, _child: Object) -> bool{
+    pub fn remove_child(&mut self, _child: &mut Object) -> bool{
         let mut removed = false;
         let len = self.children.len();
         for i in 0..len{
@@ -71,7 +72,7 @@ impl Object{
                     self.children[i] = self.children[len-1].clone();
                 }
                 self.children.pop();
-                
+                _child.remove_parent();
                 removed = true;
                 break;
             }
@@ -85,11 +86,16 @@ impl Object{
         }
     }
 
-    pub fn add_parent(&mut self,_parent: Object) {
-        self.parent = Some(Box::new(_parent));
+    fn add_parent(&mut self,_parent: &Object) {
+        let name = &self.name();
+        if let Some(parent) = &mut self.parent{
+            let mut y = Object::new(name);
+            parent.remove_child(&mut y);
+        }
+        self.parent = Some(Box::new(_parent.clone()));
     }
 
-    pub fn remove_parent(&mut self) {
+    fn remove_parent(&mut self) {
         self.parent = None;
     }
 
