@@ -58,6 +58,10 @@ impl Object{
         if !exists{
             self.children.push(_child.clone());
             _child.add_parent(&self);
+            let new_x = self.x() + _child.x();
+            let new_y = self.y() + _child.y();
+            _child.set_x(new_x);
+            _child.set_y(new_y);
         }
         !exists
     }
@@ -72,6 +76,10 @@ impl Object{
                     self.children[i] = self.children[len-1].clone();
                 }
                 self.children.pop();
+                let new_x = _child.x() - self.x();
+                let new_y = _child.y() - self.y();
+                _child.set_x(new_x);
+                _child.set_y(new_y);
                 _child.remove_parent();
                 removed = true;
                 break;
@@ -88,10 +96,16 @@ impl Object{
 
     fn add_parent(&mut self,_parent: &Object) {
         let name = &self.name();
+        let mut new_x = self.x();
+        let mut new_y = self.y();
         if let Some(parent) = &mut self.parent{
             let mut y = Object::new(name);
+            new_x = new_x - parent.x();
+            new_y = new_y - parent.y();
             parent.remove_child(&mut y);
         }
+        self.set_x(new_x);
+        self.set_y(new_y);
         self.parent = Some(Box::new(_parent.clone()));
     }
 
